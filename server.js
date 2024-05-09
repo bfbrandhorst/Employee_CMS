@@ -57,77 +57,9 @@ function start() {
             case 'Quit':
                 quit()
                 break
-
-
-
         }
     });
 }
-// inquirer.prompt([
-//     {
-//         type: 'list',
-//         message: 'What is the name of the department?',
-//         name: 'action',
-//         choices: ['Custodial',
-//             'Customer Service',
-//             'Kennel Staff',
-//             'Specialty V. Technician',
-//             'GP V. Technician',
-//             'Specialty Veterinarian',
-//             'General Practice Veterinarian',
-//             'Hospital Management',
-//         ],
-//     },
-//     {
-//         type: 'list',
-//         message: 'What is the name of the role?',
-//         name: 'action',
-//         choices: ['Janitor',
-//             'Receptionist',
-//             'Patient Care Coordinator',
-//             'Kennel Assistant',
-//             'IM Technician',
-//             'Onco Technician',
-//             'Surgery Technician',
-//             'GP Technician',
-//             'IM Veterinarian',
-//             'Onco Veterinarian',
-//             'Surgery Veterinarian',
-//             'General Practice Veterinarian',
-//             'Hospital Manager',
-//         ],
-//     },
-//     {
-//         type: 'input',
-//         name: 'Salary',
-//         message: 'What is the salary of the role?',
-//     },
-
-//     {
-//         type: 'list',
-//         message: 'Which department does the role belong to?',
-//         name: 'action',
-//         choices: ['Custodial',
-//             'Customer Service',
-//             'Kennel Staff',
-//             'Specialty V. Technician',
-//             'GP V. Technician',
-//             'Specialty Veterinarian',
-//             'General Practice Veterinarian',
-//             'Hospital Management',
-//         ],
-//     },
-//     {
-//         type: 'input',
-//         name: 'Name',
-//         message: 'What is the first name of the employee?',
-//     },
-//     {
-//         type: 'input',
-//         name: 'Name',
-//         message: 'What is the last name of the employee?',
-//     },
-// ])
 
 function viewAllRoles() {
     pool.query('SELECT r.id AS role_id, r.title AS job_title, r.salary, d.name AS name FROM roles r JOIN departments d ON r.department = d.id;', (err, res) => {
@@ -206,7 +138,7 @@ function addRole() {
             },
             {
                 type: 'list',
-                message: 'What department does this belong in?',
+                message: 'Which department does this role belong in?',
                 name: 'departmentName',
                 choices: departmentList
 
@@ -227,6 +159,57 @@ function addRole() {
         })
     })
 }
+
+function addEmployee() {
+    pool.query('SELECT TITLE FROM roles', function (err, result) {
+        if (err) {
+            console.error(err)
+        }
+        const rolesList = result.rows.map((roles) => ({
+            value: roles.id,
+            name: roles.name,
+        }))
+        inquirer.prompt([
+            {
+                type: 'input',
+                name: 'first_name',
+                message: 'What is the first name of the new employee?'
+            },
+            {
+                type: 'input',
+                name: 'last_name',
+                message: 'What is the last name of the new employee?'
+            },
+            {
+                type: 'list',
+                name: 'role_id',
+                message: 'What is the role for this employee?',
+                choices: rolesList
+            },
+            {
+                type: 'input',
+                name: 'manager_id',
+                message: 'If  a manager, enter ID:',
+            },
+
+        ]).then((response) => {
+            let firstName = response.first_name
+            let lastName = response.last_name
+            let roleID = response.roleName
+            let managerID = response.managerID
+            pool.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1,$2,$3,$4)', [firstName, lastName, roleID, managerID], function (err, res) {
+                if (err) {
+                    console.error(err)
+
+                } else {
+                    viewAllEmployees(); start()
+                }
+            })
+        })
+    })
+}
+
+
 function quit() {
     console.log('Bye')
     process.exit()
@@ -234,5 +217,5 @@ function quit() {
 pool.connect();
 start()
 app.listen(PORT, () => {
-    console.log('Hey you did it!');
+    console.log('Hey, you did it!');
 });
