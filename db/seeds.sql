@@ -6,7 +6,7 @@ VALUES ('Custodial'),
        ('GP V. Technician'),
        ('Specialty Veterinarian'),
        ('General Practice Veterinarian'),
-       ('Hospital Manager');
+       ('Hospital Management');
 
 
 
