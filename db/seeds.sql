@@ -48,5 +48,5 @@ VALUES ('Bud', 'Smith', 1, NULL),
        ('Phil', 'Wolf', 6, NULL),
        ('Shirley', 'Rust', 7, NULL),
        ('David', 'Schoon', 7, NULL),
-       ('Elizabeth', 'Ross', 8, 100),
-       ('Tina', 'Ghost', 8, 200);
+       ('Elizabeth', 'Ross', 8, NULL),
+       ('Tina', 'Ghost', 8, NULL);
