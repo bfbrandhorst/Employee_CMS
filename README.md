@@ -3,9 +3,16 @@ Welcome to our Emloyee Tracker CMS interface application! This is a command- lin
 
 
 
+[View All Roles Image](./assets/View%20Roles%20Screenshot%20.png)
+
+
+
+[View All Employees](./assets/View%20Employees%20Screenshot%20.png)
+
 
 
 [Application video demonstration]
 
 
-GitHub Repository URL:
+
+GitHub Repository URL: https://github.com/bfbrandhorst/Employee_CMS
