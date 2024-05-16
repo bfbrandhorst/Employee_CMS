@@ -91,7 +91,7 @@ function viewAllEmployees() {
 
         } else {
             console.table(res.rows), start()
-        }// Your callback function here
+        }
     });
 }
 
@@ -104,7 +104,7 @@ function addDepartment() {
         }
     ]).then((response) => {
         let departmentName = response.addDepartment
-        pool.query('INSERT INTO departments (name) VALUES (?)', [departmentName], function (err, res) {
+        pool.query('INSERT INTO departments (name) VALUES ($1)', [departmentName], function (err, res) {
             console.log('where')
             if (err) {
                 console.error(err)
