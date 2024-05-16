@@ -161,13 +161,13 @@ function addRole() {
 }
 
 function addEmployee() {
-    pool.query('SELECT TITLE FROM roles', function (err, result) {
+    pool.query('SELECT * FROM roles', function (err, result) {
         if (err) {
             console.error(err)
         }
         const rolesList = result.rows.map((roles) => ({
             value: roles.id,
-            name: roles.name,
+            name: roles.title,
         }))
         inquirer.prompt([
             {
@@ -195,8 +195,8 @@ function addEmployee() {
         ]).then((response) => {
             let firstName = response.first_name
             let lastName = response.last_name
-            let roleID = response.roleName
-            let managerID = response.managerID
+            let roleID = response.role_id
+            let managerID = response.manager_id
             pool.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1,$2,$3,$4)', [firstName, lastName, roleID, managerID], function (err, res) {
                 if (err) {
                     console.error(err)
@@ -209,6 +209,54 @@ function addEmployee() {
     })
 }
 
+function updateEmployee() {
+    pool.query('SELECT * FROM employee', function (err, result) {
+        if (err) {
+            console.error(err)
+        }
+        const employeeList = result.rows.map((employee) => ({
+            value: employee.id,
+            name: `${employee.first_name} ${employee.last_name}`,
+        }))
+
+        pool.query('SELECT * FROM roles', function (err, result) {
+            if (err) {
+                console.error(err)
+            }
+            const roleList = result.rows.map((role) => ({
+                value: role.id,
+                name: role.title
+
+            }))
+
+            inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'employee',
+                    message: 'Which employee would you like to update?',
+                    choices: employeeList
+                },
+                {
+                    type: 'list',
+                    name: 'role',
+                    message: 'What role are they moving into?',
+                    choices: roleList
+                },
+            ]).then((response) => {
+                let { employee, role } = response
+
+                pool.query('UPDATE employee SET role_id = $1 WHERE id = $2', [role, employee], function (err, result) {
+                    if (err) {
+                        console.error(err)
+                    } else {
+                        viewAllEmployees(); start()
+
+                    }
+                })
+            })
+        })
+    })
+}
 
 function quit() {
     console.log('Bye')

@@ -28,7 +28,9 @@ VALUES ('Janitor', 30000.00, 1),
 
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Bud', 'Smith', 1, NULL),
+VALUES ('Elizabeth', 'Ross', 8, NULL),
+       ('Tina', 'Ghost', 8, NULL)
+       ('Bud', 'Smith', 1, NULL),
        ('Jack', 'Levy', 1, NULL),
        ('Kara', 'Johnson', 2, NULL),
        ('Ashley', 'Green', 2, NULL),
@@ -47,6 +49,5 @@ VALUES ('Bud', 'Smith', 1, NULL),
        ('Krista', 'Right', 6, NULL),
        ('Phil', 'Wolf', 6, NULL),
        ('Shirley', 'Rust', 7, NULL),
-       ('David', 'Schoon', 7, NULL),
-       ('Elizabeth', 'Ross', 8, NULL),
-       ('Tina', 'Ghost', 8, NULL);
+       ('David', 'Schoon', 7, NULL);
+       
