@@ -186,11 +186,6 @@ function addEmployee() {
                 message: 'What is the role for this employee?',
                 choices: rolesList
             },
-            {
-                type: 'input',
-                name: 'manager_id',
-                message: 'If  a manager, enter ID:',
-            },
 
         ]).then((response) => {
             let firstName = response.first_name
